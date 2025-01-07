@@ -1,8 +1,18 @@
 pipeline {
     agent any
 
+    parameters {
+        booleanParam(name: 'RUN_BASIC_ENV', defaultValue: true, description: 'Run Basic Environment Check')
+        booleanParam(name: 'RUN_FILE_OPS', defaultValue: true, description: 'Run File Operations Test')
+        booleanParam(name: 'RUN_NETWORK_TEST', defaultValue: true, description: 'Run Network Connectivity Test')
+        booleanParam(name: 'RUN_BUILD_SIM', defaultValue: true, description: 'Run Build Simulation')
+    }
+
     stages {
         stage('Basic Environment Check') {
+            when {
+                expression { return params.RUN_BASIC_ENV }
+            }
             steps {
                 sh '''
                 echo "=== Basic Environment Check ==="
@@ -15,6 +25,9 @@ pipeline {
         }
 
         stage('File Operations Test') {
+            when {
+                expression { return params.RUN_FILE_OPS }
+            }
             steps {
                 sh '''
                 echo "=== File Operations Test ==="
@@ -30,6 +43,9 @@ pipeline {
         }
 
         stage('Network Connectivity Test') {
+            when {
+                expression { return params.RUN_NETWORK_TEST }
+            }
             steps {
                 sh '''
                 echo "=== Network Connectivity Test ==="
@@ -41,6 +57,9 @@ pipeline {
         }
 
         stage('Build Simulation') {
+            when {
+                expression { return params.RUN_BUILD_SIM }
+            }
             steps {
                 sh '''
                 echo "=== Build Simulation ==="
